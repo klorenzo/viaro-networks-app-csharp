@@ -17,7 +17,7 @@ CREATE TABLE Alumno (
   nombre VARCHAR(50),
   apellidos VARCHAR(50),
   genero CHAR(1),
-  fechaNacimiento DATETIME,
+  fechaDeNacimiento DATETIME,
   PRIMARY KEY (id)
 );
 
@@ -55,10 +55,10 @@ CREATE PROCEDURE spAlumnoCreate
 	@nombre VARCHAR(50), 
 	@apellidos VARCHAR(50), 
 	@genero VARCHAR(1), 
-	@fechaNacimiento DATETIME
+	@fechaDeNacimiento DATETIME
 AS
-	INSERT INTO Alumno(nombre, apellidos, genero, fechaNacimiento) 
-		VALUES(@nombre, @apellidos, @genero, @fechaNacimiento);
+	INSERT INTO Alumno(nombre, apellidos, genero, fechaDeNacimiento) 
+		VALUES(@nombre, @apellidos, @genero, @fechaDeNacimiento);
 GO
 
 CREATE PROCEDURE spAlumnoGetAll
@@ -76,13 +76,13 @@ CREATE PROCEDURE spAlumnoUpdateByID
 	@nombre VARCHAR(50), 
 	@apellidos VARCHAR(50), 
 	@genero VARCHAR(1), 
-	@fechaNacimiento DATETIME
+	@fechaDeNacimiento DATETIME
 AS
 	UPDATE Alumno SET 
 		nombre = @nombre, 
 		apellidos = @apellidos, 
 		genero = @genero, 
-		fechaNacimiento = @fechaNacimiento 
+		fechaDeNacimiento = @fechaDeNacimiento 
 		WHERE id = @id;
 GO
 
