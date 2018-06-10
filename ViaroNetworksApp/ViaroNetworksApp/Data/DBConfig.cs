@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
-namespace ViaroNetworksApp.DataAccess
+namespace ViaroNetworksApp.Data
 {
     public class DBConfig
     {

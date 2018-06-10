@@ -6,7 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Web.Http;
-using ViaroNetworksApp.DataAccess;
+using ViaroNetworksApp.Data;
 
 namespace ViaroNetworksApp.Controllers
 {
