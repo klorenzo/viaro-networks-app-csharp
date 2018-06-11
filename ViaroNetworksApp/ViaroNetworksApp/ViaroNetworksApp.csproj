@@ -184,7 +184,11 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\KevinController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Data\AlumnoGradoRepository.cs" />
+    <Compile Include="Data\GradoRepository.cs" />
+    <Compile Include="Data\ProfesorRepository.cs" />
     <Compile Include="Data\AlumnoRepository.cs" />
     <Compile Include="Data\DBConfig.cs" />
     <Compile Include="Global.asax.cs">
