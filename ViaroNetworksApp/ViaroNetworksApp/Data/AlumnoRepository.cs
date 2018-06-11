@@ -11,7 +11,7 @@ namespace ViaroNetworksApp.Data
     public class AlumnoRepository
     {
 
-        public Alumno GetByID(int id)
+        public static Alumno GetByID(int id)
         {
             Alumno alumno = null;
             using (SqlConnection connection = DBConfig.GetInstance().GetConnection())
@@ -46,7 +46,7 @@ namespace ViaroNetworksApp.Data
             return alumno;
         }
 
-        public List<Alumno> GetAll()
+        public static List<Alumno> GetAll()
         {
             List<Alumno> alumnos = new List<Alumno>();
             using (SqlConnection connection = DBConfig.GetInstance().GetConnection())
@@ -80,7 +80,7 @@ namespace ViaroNetworksApp.Data
             return alumnos;
         }
 
-        public bool Create(Alumno alumno)
+        public static bool Create(Alumno alumno)
         {
             using (SqlConnection connection = DBConfig.GetInstance().GetConnection())
             {
@@ -110,7 +110,7 @@ namespace ViaroNetworksApp.Data
             return false;
         }
 
-        public bool Update(Alumno alumno)
+        public static bool Update(Alumno alumno)
         {
             using (SqlConnection connection = DBConfig.GetInstance().GetConnection())
             {
@@ -141,7 +141,7 @@ namespace ViaroNetworksApp.Data
             return false;
         }
 
-        public bool Delete(int id)
+        public static bool Delete(int id)
         {
             using (SqlConnection connection = DBConfig.GetInstance().GetConnection())
             {

@@ -11,7 +11,7 @@ namespace ViaroNetworksApp.Data
     public class ProfesorRepository
     {
 
-        public Profesor GetByID(int id)
+        public static Profesor GetByID(int id)
         {
             Profesor profesor = null;
             using (SqlConnection connection = DBConfig.GetInstance().GetConnection())
@@ -45,7 +45,7 @@ namespace ViaroNetworksApp.Data
             return profesor;
         }
 
-        public List<Profesor> GetAll()
+        public static List<Profesor> GetAll()
         {
             List<Profesor> profesores = new List<Profesor>();
             using (SqlConnection connection = DBConfig.GetInstance().GetConnection())
@@ -78,7 +78,7 @@ namespace ViaroNetworksApp.Data
             return profesores;
         }
 
-        public bool Create(Profesor profesor)
+        public static bool Create(Profesor profesor)
         {
             using (SqlConnection connection = DBConfig.GetInstance().GetConnection())
             {
@@ -107,7 +107,7 @@ namespace ViaroNetworksApp.Data
             return false;
         }
 
-        public bool Update(Profesor profesor)
+        public static bool Update(Profesor profesor)
         {
             using (SqlConnection connection = DBConfig.GetInstance().GetConnection())
             {
@@ -137,7 +137,7 @@ namespace ViaroNetworksApp.Data
             return false;
         }
 
-        public bool Delete(int id)
+        public static bool Delete(int id)
         {
             using (SqlConnection connection = DBConfig.GetInstance().GetConnection())
             {
