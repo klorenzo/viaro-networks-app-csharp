@@ -204,5 +204,3 @@ CREATE PROCEDURE spAlumnoGradoDeleteByID @id INTEGER
 AS
 	DELETE AlumnoGrado WHERE id = @id;
 GO
-
-SELECT * FROM Alumno;

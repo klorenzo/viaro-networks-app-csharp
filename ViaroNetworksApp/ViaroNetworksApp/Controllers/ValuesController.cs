@@ -15,33 +15,13 @@ namespace ViaroNetworksApp.Controllers
     public class ValuesController : ApiController
     {
         // GET api/values
-        public IEnumerable<string> Get()
+        public IEnumerable<Alumno> Get()
         {
-            // SQL Connection TEST
-            /*SqlConnection connection = DBConfig.GetInstance().GetConnection();
-
-            SqlCommand query = new SqlCommand("SELECT * FROM Alumno;", connection);
-            SqlDataReader reader = query.ExecuteReader();
-
-            StringBuilder sb = new StringBuilder();
-
-            while(reader.Read())
-            {
-                sb.Append(" [").Append(reader[1]).Append("] ");
-            }*/
-            // SQL Connection TEST
 
             AlumnoRepository alumnoRepository = new AlumnoRepository();
-            List<Alumno> alumnos = alumnoRepository.GetAll();
+            
 
-            StringBuilder sb = new StringBuilder();
-
-            foreach (Alumno alumno in alumnos)
-            {
-                sb.Append(alumno.ID + " - " + alumno.Nombre + " - " + alumno.Apellidos + " - " + alumno.Genero + " - " + alumno.FechaDeNacimiento);
-            }
-
-            return new string[] { "value1", sb.ToString() };
+            return alumnoRepository.GetAll();
         }
 
         // GET api/values/5
