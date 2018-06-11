@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
@@ -7,6 +8,7 @@ using System.Net.Http;
 using System.Text;
 using System.Web.Http;
 using ViaroNetworksApp.Data;
+using ViaroNetworksApp.Models;
 
 namespace ViaroNetworksApp.Controllers
 {
@@ -16,7 +18,7 @@ namespace ViaroNetworksApp.Controllers
         public IEnumerable<string> Get()
         {
             // SQL Connection TEST
-            SqlConnection connection = DBConfig.GetInstance().GetConnection();
+            /*SqlConnection connection = DBConfig.GetInstance().GetConnection();
 
             SqlCommand query = new SqlCommand("SELECT * FROM Alumno;", connection);
             SqlDataReader reader = query.ExecuteReader();
@@ -26,8 +28,18 @@ namespace ViaroNetworksApp.Controllers
             while(reader.Read())
             {
                 sb.Append(" [").Append(reader[1]).Append("] ");
-            }
+            }*/
             // SQL Connection TEST
+
+            AlumnoRepository alumnoRepository = new AlumnoRepository();
+            List<Alumno> alumnos = alumnoRepository.GetAll();
+
+            StringBuilder sb = new StringBuilder();
+
+            foreach (Alumno alumno in alumnos)
+            {
+                sb.Append(alumno.ID + " - " + alumno.Nombre + " - " + alumno.Apellidos + " - " + alumno.Genero + " - " + alumno.FechaDeNacimiento);
+            }
 
             return new string[] { "value1", sb.ToString() };
         }

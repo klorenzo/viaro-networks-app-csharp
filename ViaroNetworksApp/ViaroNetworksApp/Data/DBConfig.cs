@@ -10,28 +10,30 @@ namespace ViaroNetworksApp.Data
     {
         private static DBConfig Instance;
 
-        private static readonly string ConnectionString = "Data Source=localhost\\SQLEXPRESS;" +
+        private static readonly string ConnectionString = "Data Source=KLENVY173D;" +
             "Initial Catalog=viaronetworksapp;Integrated Security=true;";
 
         private SqlConnection Connection;
 
         private DBConfig()
         {
-            try
-            {
-                Connection = new SqlConnection(ConnectionString);
-                Connection.Open();
-            } catch(Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
+            // Private Constructor
         }
 
         public static DBConfig GetInstance()
         {
-            if(Instance == null)
+            try
             {
-                Instance = new DBConfig();
+                if (Instance == null)
+                {
+                    Instance = new DBConfig();
+                }
+                Instance.Connection = new SqlConnection(ConnectionString);
+                Instance.Connection.Open();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
             }
             return Instance;
         }
