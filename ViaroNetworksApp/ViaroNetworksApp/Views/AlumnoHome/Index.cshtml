@@ -3,4 +3,107 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            loadData();
+        });
+
+        $("#frmCreate").on("submit", function (event) {
+            event.preventDefault();
+
+            $.post('http://' + document.location.host + '/api/alumno/', $("#frmCreate").serialize())
+                .done(function (response) {
+                    console.log(JSON.stringify(response));
+                    loadData();
+                });
+
+            $("#frmCreate")[0].reset();
+        });
+
+        function loadData() {
+            $.get('http://' + document.location.host + '/api/alumno/', function (data) {
+                var tbody = $(".table > tbody");
+                tbody.empty();
+                for (var i in data) {
+                    tbody.append("<tr>");
+                    tbody.append("<td>" + data[i].id + "</td>");
+                    tbody.append("<td>" + data[i].nombre + "</td>");
+                    tbody.append("<td>" + data[i].apellidos + "</td>");
+                    tbody.append("<td>" + data[i].genero + "</td>");
+                    tbody.append("<td>" + data[i].fechaDeNacimiento + "</td>");
+                    tbody.append("<td><button class='" + data[i].id + "'>UPDATE</button></td>");
+                    tbody.append("<td><button onclick=\"deleteByID('" + data[i].id + "');\">DELETE</button></td>");
+                    tbody.append("</tr>");
+                }
+            });
+        }
+
+        function deleteByID(id) {
+            $.ajax({
+                url: 'http://' + document.location.host + '/api/alumno/' + id,
+                type: "DELETE",
+                success: function (response) {
+                    console.log(JSON.stringify(response));
+                    loadData();
+                }
+            });
+        }
+    </script>
+}
+
 <h2>Alumno Home</h2>
+
+<form id="frmCreate">
+    <fieldset class="form-group">
+        <legend>Create Alumno</legend>
+
+        <div class="row">
+
+            <div class="col-lg-2">
+                <label for="nombre">Nombre:</label>
+                <input id="nombre" name="nombre" type="text" class="form-control" />
+            </div>
+
+            <div class="col-lg-2">
+                <label for="apellidos">Apellidos:</label>
+                <input id="apellidos" name="apellidos" type="text" class="form-control" />
+            </div>
+
+            <div class="col-lg-2">
+                <label for="genero">Género:</label>
+                <!-- <input id="genero" name="genero" type="text" class="form-control" /> -->
+                <select id="genero" name="genero" class="form-control">
+                    <option label="Masculino" value="M" />
+                    <option label="Femenino" value="F" />
+                </select>
+            </div>
+
+            <div class="col-lg-2">
+                <label for="fechaDeNacimiento">Fecha de Nacimiento:</label>
+                <input id="fechaDeNacimiento" name="fechaDeNacimiento" type="date" class="form-control" />
+            </div>
+
+            <div class="col-lg-4">
+                <label>Action</label>
+                <input type="submit" value="CREATE" class="form-control" />
+            </div>
+
+        </div>
+    </fieldset>
+</form>
+
+<table class="table table-bordered text-center">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>Género</th>
+            <th>Fecha de Nacimiento</th>
+            <th>Action</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
