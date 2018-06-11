@@ -8,17 +8,17 @@ using ViaroNetworksApp.Models;
 
 namespace ViaroNetworksApp.Data
 {
-    public class AlumnoRepository
+    public class ProfesorRepository
     {
 
-        public Alumno GetByID(int id)
+        public Profesor GetByID(int id)
         {
-            Alumno alumno = null;
+            Profesor profesor = null;
             using (SqlConnection connection = DBConfig.GetInstance().GetConnection())
             {
                 try
                 {
-                    SqlCommand query = new SqlCommand("spAlumnoGetByID", connection)
+                    SqlCommand query = new SqlCommand("spProfesorGetByID", connection)
                     {
                         CommandType = CommandType.StoredProcedure
                     };
@@ -28,13 +28,12 @@ namespace ViaroNetworksApp.Data
 
                     while (reader.Read())
                     {
-                        alumno = new Alumno
+                        profesor = new Profesor
                         {
                             ID = Convert.ToInt32(reader["id"]),
                             Nombre = Convert.ToString(reader["nombre"]),
                             Apellidos = Convert.ToString(reader["apellidos"]),
-                            Genero = Convert.ToString(reader["genero"]),
-                            FechaDeNacimiento = Convert.ToDateTime(reader["fechaDeNacimiento"])
+                            Genero = Convert.ToString(reader["genero"])
                         };
                     }
                 }
@@ -43,17 +42,17 @@ namespace ViaroNetworksApp.Data
                     Console.WriteLine(e.Message);
                 }
             }
-            return alumno;
+            return profesor;
         }
 
-        public List<Alumno> GetAll()
+        public List<Profesor> GetAll()
         {
-            List<Alumno> alumnos = new List<Alumno>();
+            List<Profesor> profesores = new List<Profesor>();
             using (SqlConnection connection = DBConfig.GetInstance().GetConnection())
             {
                 try
                 {
-                    SqlCommand query = new SqlCommand("spAlumnoGetAll", connection)
+                    SqlCommand query = new SqlCommand("spProfesorGetAll", connection)
                     {
                         CommandType = CommandType.StoredProcedure
                     };
@@ -62,38 +61,36 @@ namespace ViaroNetworksApp.Data
 
                     while (reader.Read())
                     {
-                        Alumno alumno = new Alumno
+                        Profesor profesor = new Profesor
                         {
                             ID = Convert.ToInt32(reader["id"]),
                             Nombre = Convert.ToString(reader["nombre"]),
                             Apellidos = Convert.ToString(reader["apellidos"]),
                             Genero = Convert.ToString(reader["genero"]),
-                            FechaDeNacimiento = Convert.ToDateTime(reader["fechaDeNacimiento"])
                         };
-                        alumnos.Add(alumno);
+                        profesores.Add(profesor);
                     }
                 } catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
                 }
             }
-            return alumnos;
+            return profesores;
         }
 
-        public bool Create(Alumno alumno)
+        public bool Create(Profesor profesor)
         {
             using (SqlConnection connection = DBConfig.GetInstance().GetConnection())
             {
                 try
                 {
-                    SqlCommand query = new SqlCommand("spAlumnoCreate", connection)
+                    SqlCommand query = new SqlCommand("spProfesorCreate", connection)
                     {
                         CommandType = CommandType.StoredProcedure
                     };
-                    query.Parameters.AddWithValue("@nombre", alumno.Nombre);
-                    query.Parameters.AddWithValue("@apellidos", alumno.Apellidos);
-                    query.Parameters.AddWithValue("@genero", alumno.Genero);
-                    query.Parameters.AddWithValue("@fechaDeNacimiento", alumno.FechaDeNacimiento);
+                    query.Parameters.AddWithValue("@nombre", profesor.Nombre);
+                    query.Parameters.AddWithValue("@apellidos", profesor.Apellidos);
+                    query.Parameters.AddWithValue("@genero", profesor.Genero);
 
                     int rowsAffected = query.ExecuteNonQuery();
 
@@ -110,21 +107,20 @@ namespace ViaroNetworksApp.Data
             return false;
         }
 
-        public bool Update(Alumno alumno)
+        public bool Update(Profesor profesor)
         {
             using (SqlConnection connection = DBConfig.GetInstance().GetConnection())
             {
                 try
                 {
-                    SqlCommand query = new SqlCommand("spAlumnoUpdateByID", connection)
+                    SqlCommand query = new SqlCommand("spProfesorUpdateByID", connection)
                     {
                         CommandType = CommandType.StoredProcedure
                     };
-                    query.Parameters.AddWithValue("@id", alumno.ID);
-                    query.Parameters.AddWithValue("@nombre", alumno.Nombre);
-                    query.Parameters.AddWithValue("@apellidos", alumno.Apellidos);
-                    query.Parameters.AddWithValue("@genero", alumno.Genero);
-                    query.Parameters.AddWithValue("@fechaDeNacimiento", alumno.FechaDeNacimiento);
+                    query.Parameters.AddWithValue("@id", profesor.ID);
+                    query.Parameters.AddWithValue("@nombre", profesor.Nombre);
+                    query.Parameters.AddWithValue("@apellidos", profesor.Apellidos);
+                    query.Parameters.AddWithValue("@genero", profesor.Genero);
 
                     int rowsAffected = query.ExecuteNonQuery();
 
@@ -147,7 +143,7 @@ namespace ViaroNetworksApp.Data
             {
                 try
                 {
-                    SqlCommand query = new SqlCommand("spAlumnoDeleteByID", connection)
+                    SqlCommand query = new SqlCommand("spProfesorDeleteByID", connection)
                     {
                         CommandType = CommandType.StoredProcedure
                     };
