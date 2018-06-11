@@ -2,9 +2,12 @@
 
     <h1>Viaro Networks APP</h1>
 
-    <a href="/" class="btn btn-primary btn-lg">Alumno</a>
-    <a href="/" class="btn btn-primary btn-lg">Profesor</a>
-    <a href="/" class="btn btn-primary btn-lg">Grado</a>
-    <a href="/" class="btn btn-primary btn-lg">AlumnoGrado</a>
+    @Html.ActionLink("Alumno", null, "AlumnoHome", new { area = "" }, new { @class = "btn btn-primary btn-lg" })
+
+    @Html.ActionLink("Profesor", null, "ProfesorHome", new { area = "" }, new { @class = "btn btn-primary btn-lg" })
+
+    @Html.ActionLink("Grado", null, "GradoHome", new { area = "" }, new { @class = "btn btn-primary btn-lg" })
+
+    @Html.ActionLink("AlumnoGrado", null, "AlumnoGradoHome", new { area = "" }, new { @class = "btn btn-primary btn-lg" })
 
 </div>
