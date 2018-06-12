@@ -67,26 +67,24 @@
         });
 
         function loadData() {
-            $.get('http://' + document.location.host + '/api/alumnogrado/', function (data) {
+            $.get('http://' + document.location.host + '/api/alumnogrado/').done(function (data) {
                 var tbody = $(".table > tbody");
                 tbody.empty();
+
                 for (var i in data) {
                     tbody.append("<tr>");
                     tbody.append("<td>" + data[i].id + "</td>");
                     tbody.append("<td class='alumnoID" + data[i].alumnoID + "'></td>");
-
-                    getNombreAlumnoByID(data[i].alumnoID);
-
                     tbody.append("<td class='gradoID" + data[i].gradoID + "'></td>");
-
-                    getNombreGradoByID(data[i].gradoID);
-
                     tbody.append("<td>" + data[i].seccion + "</td>");
                     tbody.append("<td><button data-toggle='modal' data-target='#modalUpdate' onclick=\"loadDataByID('"
                         + data[i].id + "');\">UPDATE</button></td>");
                     tbody.append("<td><button data-toggle='modal' data-target='#modalDelete' onclick=\"deleteByID('"
                         + data[i].id + "');\">DELETE</button></td>");
                     tbody.append("</tr>");
+
+                    getNombreAlumnoByID(data[i].alumnoID);
+                    getNombreGradoByID(data[i].gradoID);
                 }
             });
 
@@ -129,17 +127,19 @@
 
         function getNombreAlumnoByID(id) {
             $.ajax({
-                url: 'http://' + document.location.host + '/api/alumno/' + id
-            }).done(function (data) {
-                $(".alumnoID" + id).text(data.nombre + " " + data.apellidos);
+                url: 'http://' + document.location.host + '/api/alumno/' + id,
+                success: function (data) {
+                    $(".alumnoID" + id).text(data.nombre + " " + data.apellidos);
+                }
             });
         }
 
         function getNombreGradoByID(id) {
             $.ajax({
-                url: 'http://' + document.location.host + '/api/grado/' + id
-            }).done(function (data) {
-                $(".gradoID" + id).text(data.nombre);
+                url: 'http://' + document.location.host + '/api/grado/' + id,
+                success: function (data) {
+                    $(".gradoID" + id).text(data.nombre);
+                }
             });
         }
     </script>

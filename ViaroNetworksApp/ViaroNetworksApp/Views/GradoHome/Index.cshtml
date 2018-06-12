@@ -75,14 +75,13 @@
                     tbody.append("<td>" + data[i].id + "</td>");
                     tbody.append("<td>" + data[i].nombre + "</td>");
                     tbody.append("<td class='profesorID" + data[i].profesorID + "'></td>");
-
-                    getNombreProfesorByID(data[i].profesorID);
-
                     tbody.append("<td><button data-toggle='modal' data-target='#modalUpdate' onclick=\"loadDataByID('"
                         + data[i].id + "');\">UPDATE</button></td>");
                     tbody.append("<td><button data-toggle='modal' data-target='#modalDelete' onclick=\"deleteByID('"
                         + data[i].id + "');\">DELETE</button></td>");
                     tbody.append("</tr>");
+
+                    getNombreProfesorByID(data[i].profesorID);
                 }
             });
 
