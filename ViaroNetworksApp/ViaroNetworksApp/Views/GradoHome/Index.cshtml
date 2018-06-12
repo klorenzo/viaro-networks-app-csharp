@@ -74,12 +74,26 @@
                     tbody.append("<tr>");
                     tbody.append("<td>" + data[i].id + "</td>");
                     tbody.append("<td>" + data[i].nombre + "</td>");
-                    tbody.append("<td>" + data[i].profesorID + "</td>");
+                    tbody.append("<td class='profesorID" + data[i].profesorID + "'></td>");
+
+                    getNombreProfesorByID(data[i].profesorID);
+
                     tbody.append("<td><button data-toggle='modal' data-target='#modalUpdate' onclick=\"loadDataByID('"
                         + data[i].id + "');\">UPDATE</button></td>");
                     tbody.append("<td><button data-toggle='modal' data-target='#modalDelete' onclick=\"deleteByID('"
                         + data[i].id + "');\">DELETE</button></td>");
                     tbody.append("</tr>");
+                }
+            });
+
+            $.get('http://' + document.location.host + '/api/profesor/', function (data) {
+                var selector = "#frmCreate #profesorID, #frmUpdate #profesorID";
+
+                $(selector).empty();
+
+                for (var i in data) {
+                    $(selector).append("<option value='" + data[i].id
+                        + "' label='" + data[i].nombre + " " + data[i].apellidos + "' />");
                 }
             });
         }
@@ -95,6 +109,14 @@
                 $("#frmUpdate #id").val(data.id);
                 $("#frmUpdate #nombre").val(data.nombre);
                 $("#frmUpdate #profesorID").val(data.profesorID);
+            });
+        }
+
+        function getNombreProfesorByID(id) {
+            $.ajax({
+                url: 'http://' + document.location.host + '/api/profesor/' + id
+            }).done(function (data) {
+                $(".profesorID" + id).text(data.nombre + " " + data.apellidos);
             });
         }
     </script>
@@ -115,7 +137,7 @@
 
             <div class="col-lg-2">
                 <label for="profesorID">Profesor ID:</label>
-                <input id="profesorID" name="profesorID" type="text" class="form-control" />
+                <select id="profesorID" name="profesorID" class="form-control"></select>
             </div>
 
             <div class="col-lg-4">
@@ -163,7 +185,7 @@
 
                             <div class="col-lg-6">
                                 <label for="profesorID">Profesor ID:</label>
-                                <input id="profesorID" name="profesorID" type="text" class="form-control" />
+                                <select id="profesorID" name="profesorID" class="form-control"></select>
                             </div>
                         </div>
                     </fieldset>

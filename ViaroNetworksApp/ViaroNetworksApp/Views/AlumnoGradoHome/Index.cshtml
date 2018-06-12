@@ -73,14 +73,41 @@
                 for (var i in data) {
                     tbody.append("<tr>");
                     tbody.append("<td>" + data[i].id + "</td>");
-                    tbody.append("<td>" + data[i].alumnoID + "</td>");
-                    tbody.append("<td>" + data[i].gradoID + "</td>");
+                    tbody.append("<td class='alumnoID" + data[i].alumnoID + "'></td>");
+
+                    getNombreAlumnoByID(data[i].alumnoID);
+
+                    tbody.append("<td class='gradoID" + data[i].gradoID + "'></td>");
+
+                    getNombreGradoByID(data[i].gradoID);
+
                     tbody.append("<td>" + data[i].seccion + "</td>");
                     tbody.append("<td><button data-toggle='modal' data-target='#modalUpdate' onclick=\"loadDataByID('"
                         + data[i].id + "');\">UPDATE</button></td>");
                     tbody.append("<td><button data-toggle='modal' data-target='#modalDelete' onclick=\"deleteByID('"
                         + data[i].id + "');\">DELETE</button></td>");
                     tbody.append("</tr>");
+                }
+            });
+
+            $.get('http://' + document.location.host + '/api/alumno/', function (data) {
+                var selector = "#frmCreate #alumnoID, #frmUpdate #alumnoID";
+
+                $(selector).empty();
+
+                for (var i in data) {
+                    $(selector).append("<option value='" + data[i].id
+                        + "' label='" + data[i].nombre + " " + data[i].apellidos + "' />");
+                }
+            });
+
+            $.get('http://' + document.location.host + '/api/grado/', function (data) {
+                var selector = "#frmCreate #gradoID, #frmUpdate #gradoID";
+
+                $(selector).empty();
+
+                for (var i in data) {
+                    $(selector).append("<option value='" + data[i].id + "' label='" + data[i].nombre + "' />");
                 }
             });
         }
@@ -99,6 +126,22 @@
                 $("#frmUpdate #seccion").val(data.seccion);
             });
         }
+
+        function getNombreAlumnoByID(id) {
+            $.ajax({
+                url: 'http://' + document.location.host + '/api/alumno/' + id
+            }).done(function (data) {
+                $(".alumnoID" + id).text(data.nombre + " " + data.apellidos);
+            });
+        }
+
+        function getNombreGradoByID(id) {
+            $.ajax({
+                url: 'http://' + document.location.host + '/api/grado/' + id
+            }).done(function (data) {
+                $(".gradoID" + id).text(data.nombre);
+            });
+        }
     </script>
 }
 
@@ -112,12 +155,12 @@
 
             <div class="col-lg-2">
                 <label for="alumnoID">Alumno ID:</label>
-                <input id="alumnoID" name="alumnoID" type="text" class="form-control" />
+                <select id="alumnoID" name="alumnoID" class="form-control"></select>
             </div>
 
             <div class="col-lg-2">
                 <label for="gradoID">Grado ID:</label>
-                <input id="gradoID" name="gradoID" type="text" class="form-control" />
+                <select id="gradoID" name="gradoID" class="form-control"></select>
             </div>
 
             <div class="col-lg-2">
@@ -166,12 +209,12 @@
 
                             <div class="col-lg-6">
                                 <label for="alumnoID">Alumno ID:</label>
-                                <input id="alumnoID" name="alumnoID" type="text" class="form-control" />
+                                <select id="alumnoID" name="alumnoID" class="form-control"></select>
                             </div>
 
                             <div class="col-lg-6">
                                 <label for="gradoID">Grado ID:</label>
-                                <input id="gradoID" name="gradoID" type="text" class="form-control" />
+                                <select id="gradoID" name="gradoID" class="form-control"></select>
                             </div>
                         </div>
 
