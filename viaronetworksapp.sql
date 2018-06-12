@@ -51,13 +51,13 @@ GO
 
 -- TABLE Alumno: Stored Procedures
 
-CREATE PROCEDURE spAlumnoCreate 
-	@nombre VARCHAR(50), 
-	@apellidos VARCHAR(50), 
-	@genero VARCHAR(1), 
+CREATE PROCEDURE spAlumnoCreate
+	@nombre VARCHAR(50),
+	@apellidos VARCHAR(50),
+	@genero VARCHAR(1),
 	@fechaDeNacimiento DATETIME
 AS
-	INSERT INTO Alumno(nombre, apellidos, genero, fechaDeNacimiento) 
+	INSERT INTO Alumno(nombre, apellidos, genero, fechaDeNacimiento)
 		VALUES(@nombre, @apellidos, @genero, @fechaDeNacimiento);
 GO
 
@@ -71,18 +71,18 @@ AS
 	SELECT * FROM Alumno WHERE id = @id;
 GO
 
-CREATE PROCEDURE spAlumnoUpdateByID 
-	@id INTEGER, 
-	@nombre VARCHAR(50), 
-	@apellidos VARCHAR(50), 
-	@genero VARCHAR(1), 
+CREATE PROCEDURE spAlumnoUpdateByID
+	@id INTEGER,
+	@nombre VARCHAR(50),
+	@apellidos VARCHAR(50),
+	@genero VARCHAR(1),
 	@fechaDeNacimiento DATETIME
 AS
-	UPDATE Alumno SET 
-		nombre = @nombre, 
-		apellidos = @apellidos, 
-		genero = @genero, 
-		fechaDeNacimiento = @fechaDeNacimiento 
+	UPDATE Alumno SET
+		nombre = @nombre,
+		apellidos = @apellidos,
+		genero = @genero,
+		fechaDeNacimiento = @fechaDeNacimiento
 		WHERE id = @id;
 GO
 
@@ -94,11 +94,11 @@ GO
 -- TABLE Profesor: Stored Procedures
 
 CREATE PROCEDURE spProfesorCreate
-	@nombre VARCHAR(50), 
-	@apellidos VARCHAR(50), 
+	@nombre VARCHAR(50),
+	@apellidos VARCHAR(50),
 	@genero VARCHAR(1)
 AS
-	INSERT INTO Profesor(nombre, apellidos, genero) 
+	INSERT INTO Profesor(nombre, apellidos, genero)
 		VALUES(@nombre, @apellidos, @genero);
 GO
 
@@ -112,16 +112,16 @@ AS
 	SELECT * FROM Profesor WHERE id = @id;
 GO
 
-CREATE PROCEDURE spProfesorUpdateByID 
-	@id INTEGER, 
-	@nombre VARCHAR(50), 
-	@apellidos VARCHAR(50), 
+CREATE PROCEDURE spProfesorUpdateByID
+	@id INTEGER,
+	@nombre VARCHAR(50),
+	@apellidos VARCHAR(50),
 	@genero VARCHAR(1)
 AS
-	UPDATE Profesor SET 
-		nombre = @nombre, 
-		apellidos = @apellidos, 
-		genero = @genero 
+	UPDATE Profesor SET
+		nombre = @nombre,
+		apellidos = @apellidos,
+		genero = @genero
 		WHERE id = @id;
 GO
 
@@ -132,11 +132,11 @@ GO
 
 -- TABLE Grado: Stored Procedures
 
-CREATE PROCEDURE spGradoCreate 
-	@nombre VARCHAR(50), 
+CREATE PROCEDURE spGradoCreate
+	@nombre VARCHAR(50),
 	@profesorID INTEGER
 AS
-	INSERT INTO Grado(nombre, profesorID) 
+	INSERT INTO Grado(nombre, profesorID)
 		VALUES(@nombre, @profesorID);
 GO
 
@@ -150,14 +150,14 @@ AS
 	SELECT * FROM Grado WHERE id = @id;
 GO
 
-CREATE PROCEDURE spGradoUpdateByID 
-	@id INTEGER, 
-	@nombre VARCHAR(50), 
+CREATE PROCEDURE spGradoUpdateByID
+	@id INTEGER,
+	@nombre VARCHAR(50),
 	@profesorID INTEGER
 AS
-	UPDATE Grado SET 
-		nombre = @nombre, 
-		profesorId = @profesorID 
+	UPDATE Grado SET
+		nombre = @nombre,
+		profesorId = @profesorID
 		WHERE id = @id;
 GO
 
@@ -168,12 +168,12 @@ GO
 
 -- TABLE AlumnoGrado: Stored Procedures
 
-CREATE PROCEDURE spAlumnoGradoCreate 
-	@alumnoID INTEGER, 
-	@gradoID INTEGER, 
+CREATE PROCEDURE spAlumnoGradoCreate
+	@alumnoID INTEGER,
+	@gradoID INTEGER,
 	@seccion VARCHAR(10)
 AS
-	INSERT INTO AlumnoGrado(alumnoID, gradoID, seccion) 
+	INSERT INTO AlumnoGrado(alumnoID, gradoID, seccion)
 		VALUES(@alumnoID, @gradoID, @seccion);
 GO
 
@@ -187,16 +187,16 @@ AS
 	SELECT * FROM AlumnoGrado WHERE id = @id;
 GO
 
-CREATE PROCEDURE spAlumnoGradoUpdateByID 
-	@id INTEGER, 
-	@alumnoID INTEGER, 
-	@gradoID INTEGER, 
+CREATE PROCEDURE spAlumnoGradoUpdateByID
+	@id INTEGER,
+	@alumnoID INTEGER,
+	@gradoID INTEGER,
 	@seccion VARCHAR(10)
 AS
-	UPDATE AlumnoGrado SET 
-		alumnoID = @alumnoID, 
-		gradoID = @gradoID, 
-		seccion = @seccion 
+	UPDATE AlumnoGrado SET
+		alumnoID = @alumnoID,
+		gradoID = @gradoID,
+		seccion = @seccion
 		WHERE id = @id;
 GO
 
