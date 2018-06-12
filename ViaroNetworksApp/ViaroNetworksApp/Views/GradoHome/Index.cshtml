@@ -3,4 +3,200 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            loadData();
+        });
+
+        $("#frmCreate").on("submit", function (event) {
+            event.preventDefault();
+
+            $.post('http://' + document.location.host + '/api/grado/', $("#frmCreate").serialize())
+                .done(function (response) {
+                    if (response.error) {
+                        $.notify(response.msg, "error");
+                    } else {
+                        loadData();
+                        $.notify(response.msg, "success");
+                    }
+                });
+
+            $("#frmCreate")[0].reset();
+        });
+
+        $("#frmUpdate").on("submit", function (event) {
+            event.preventDefault();
+
+            var id = $("#frmUpdate #id").val();
+
+            $.ajax({
+                url: 'http://' + document.location.host + '/api/grado/' + id,
+                type: "PUT",
+                data: $("#frmUpdate").serialize(),
+                success: function (response) {
+                    if (response.error) {
+                        $.notify(response.msg, "error");
+                    } else {
+                        loadData();
+                        $("#modalUpdate").modal("toggle");
+                        $.notify(response.msg, "success");
+                    }
+                }
+            });
+        });
+
+        $("#frmDelete").on("submit", function (event) {
+            event.preventDefault();
+
+            var id = $("#frmDelete #id").val();
+
+            $.ajax({
+                url: 'http://' + document.location.host + '/api/grado/' + id,
+                type: "DELETE",
+                success: function (response) {
+                    if (response.error) {
+                        $.notify(response.msg, "error");
+                    } else {
+                        loadData();
+                        $("#modalDelete").modal("toggle");
+                        $.notify(response.msg, "success");
+                    }
+                }
+            });
+        });
+
+        function loadData() {
+            $.get('http://' + document.location.host + '/api/grado/', function (data) {
+                var tbody = $(".table > tbody");
+                tbody.empty();
+                for (var i in data) {
+                    tbody.append("<tr>");
+                    tbody.append("<td>" + data[i].id + "</td>");
+                    tbody.append("<td>" + data[i].nombre + "</td>");
+                    tbody.append("<td>" + data[i].profesorID + "</td>");
+                    tbody.append("<td><button data-toggle='modal' data-target='#modalUpdate' onclick=\"loadDataByID('"
+                        + data[i].id + "');\">UPDATE</button></td>");
+                    tbody.append("<td><button data-toggle='modal' data-target='#modalDelete' onclick=\"deleteByID('"
+                        + data[i].id + "');\">DELETE</button></td>");
+                    tbody.append("</tr>");
+                }
+            });
+        }
+
+        function deleteByID(id) {
+            $("#frmDelete #id").val(id);
+        }
+
+        function loadDataByID(id) {
+            $.get('http://' + document.location.host + '/api/grado/' + id, function (data) {
+                $("#frmUpdate")[0].reset();
+
+                $("#frmUpdate #id").val(data.id);
+                $("#frmUpdate #nombre").val(data.nombre);
+                $("#frmUpdate #profesorID").val(data.profesorID);
+            });
+        }
+    </script>
+}
+
 <h2>Grado Home</h2>
+
+<form id="frmCreate">
+    <fieldset class="form-group">
+        <legend>Create Grado</legend>
+
+        <div class="row">
+
+            <div class="col-lg-2">
+                <label for="nombre">Nombre:</label>
+                <input id="nombre" name="nombre" type="text" class="form-control" />
+            </div>
+
+            <div class="col-lg-2">
+                <label for="profesorID">Profesor ID:</label>
+                <input id="profesorID" name="profesorID" type="text" class="form-control" />
+            </div>
+
+            <div class="col-lg-4">
+                <label>Action</label>
+                <input type="submit" value="CREATE" class="form-control" />
+            </div>
+
+        </div>
+    </fieldset>
+</form>
+
+<table class="table table-bordered text-center">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Profesor ID</th>
+            <th>Action</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<div id="modalUpdate" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Update Grado</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form id="frmUpdate">
+                    <fieldset>
+                        <div class="row">
+                            <input id="id" name="id" type="hidden" />
+
+                            <div class="col-lg-6">
+                                <label for="nombre">Nombre:</label>
+                                <input id="nombre" name="nombre" type="text" class="form-control" />
+                            </div>
+
+                            <div class="col-lg-6">
+                                <label for="profesorID">Profesor ID:</label>
+                                <input id="profesorID" name="profesorID" type="text" class="form-control" />
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="modal-footer" style="margin-top: 10px;">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <input type="submit" class="btn btn-primary" value="Update" />
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalDelete" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Delete Grado</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="text-center">Are you sure you want to delete it?</p>
+                <form id="frmDelete">
+                    <input id="id" name="id" type="hidden" />
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <input type="submit" class="btn btn-primary" value="Delete" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
