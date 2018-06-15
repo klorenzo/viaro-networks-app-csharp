@@ -28,7 +28,7 @@
         $("#frmUpdate").on("submit", function (event) {
             event.preventDefault();
 
-            var id = $("#frmUpdate #id").val();
+            let id = $("#frmUpdate #id").val();
 
             $.ajax({
                 url: 'http://' + document.location.host + '/api/alumnogrado/' + id,
@@ -49,7 +49,7 @@
         $("#frmDelete").on("submit", function (event) {
             event.preventDefault();
 
-            var id = $("#frmDelete #id").val();
+            let id = $("#frmDelete #id").val();
 
             $.ajax({
                 url: 'http://' + document.location.host + '/api/alumnogrado/' + id,
@@ -68,10 +68,15 @@
 
         function loadData() {
             $.get('http://' + document.location.host + '/api/alumnogrado/').done(function (data) {
-                var tbody = $(".table > tbody");
+
+                let tbody = $(".table > tbody");
+
+                let idsAlumno = {};
+                let idsGrado = {};
+
                 tbody.empty();
 
-                for (var i in data) {
+                for (let i in data) {
                     tbody.append("<tr>");
                     tbody.append("<td>" + data[i].id + "</td>");
                     tbody.append("<td class='alumnoID" + data[i].alumnoID + "'></td>");
@@ -83,28 +88,44 @@
                         + data[i].id + "');\">DELETE</button></td>");
                     tbody.append("</tr>");
 
-                    getNombreAlumnoByID(data[i].alumnoID);
-                    getNombreGradoByID(data[i].gradoID);
+                    idsAlumno[i] = data[i].alumnoID;
+                    idsGrado[i] = data[i].gradoID;
+                }
+
+                for (let key in idsAlumno) {
+                    getNombreAlumnoByID(idsAlumno[key]).then(function (response) {
+                        $(".alumnoID" + idsAlumno[key]).text(response.nombre);
+                    }).catch(function (response) {
+                        console.log("NULL in Alumno (To Fix)");
+                    });
+                }
+
+                for (let key in idsAlumno) {
+                    getNombreGradoByID(idsGrado[key]).then(function (response) {
+                        $(".gradoID" + idsGrado[key]).text(response.nombre);
+                    }).catch(function (response) {
+                        console.log("NULL in Grado (To Fix)");
+                    });
                 }
             });
 
             $.get('http://' + document.location.host + '/api/alumno/', function (data) {
-                var selector = "#frmCreate #alumnoID, #frmUpdate #alumnoID";
+                let selector = "#frmCreate #alumnoID, #frmUpdate #alumnoID";
 
                 $(selector).empty();
 
-                for (var i in data) {
+                for (let i in data) {
                     $(selector).append("<option value='" + data[i].id
                         + "' label='" + data[i].nombre + " " + data[i].apellidos + "' />");
                 }
             });
 
             $.get('http://' + document.location.host + '/api/grado/', function (data) {
-                var selector = "#frmCreate #gradoID, #frmUpdate #gradoID";
+                let selector = "#frmCreate #gradoID, #frmUpdate #gradoID";
 
                 $(selector).empty();
 
-                for (var i in data) {
+                for (let i in data) {
                     $(selector).append("<option value='" + data[i].id + "' label='" + data[i].nombre + "' />");
                 }
             });
@@ -126,20 +147,26 @@
         }
 
         function getNombreAlumnoByID(id) {
-            $.ajax({
-                url: 'http://' + document.location.host + '/api/alumno/' + id,
-                success: function (data) {
-                    $(".alumnoID" + id).text(data.nombre + " " + data.apellidos);
-                }
+            return new Promise(function (resolve, reject) {
+                $.ajax({
+                    url: 'http://' + document.location.host + '/api/alumno/' + id
+                }).done(function (response) {
+                    resolve(response);
+                }).fail(function (error) {
+                    reject(error);
+                });
             });
         }
 
         function getNombreGradoByID(id) {
-            $.ajax({
-                url: 'http://' + document.location.host + '/api/grado/' + id,
-                success: function (data) {
-                    $(".gradoID" + id).text(data.nombre);
-                }
+            return new Promise(function (resolve, reject) {
+                $.ajax({
+                    url: 'http://' + document.location.host + '/api/grado/' + id
+                }).done(function (response) {
+                    resolve(response);
+                }).fail(function (error) {
+                    reject(error);
+                });
             });
         }
     </script>
